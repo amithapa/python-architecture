@@ -28,16 +28,3 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def list(self):
         return self.__session.query(model.Batch).all()
-
-class FakeRepository(AbstractRepository):
-    def __init__(self, batches: List[model.Batch]):
-        self._batches: Set[model.Batch] = set(batches)
-
-    def add(self, batch: model.Batch):
-        self._batches.add(batch)
-
-    def get(self, reference) -> model.Batch:
-        return next(b for b in self._batches if b.reference == reference)
-
-    def list(self) -> List[model.Batch]:
-        return list(self._batches)

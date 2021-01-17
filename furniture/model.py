@@ -53,8 +53,10 @@ class Batch:
             return True
         return self.eta > other.eta
 
+
 class OutOfStock(Exception):
     pass
+
 
 def allocate(line: OrderLine, batches: List[Batch]) -> str:
     try:
