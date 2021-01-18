@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker, clear_mappers
 from sqlalchemy.exc import OperationalError
 
 
-from adapters.orm import metadata, start_mappers
+from orm import metadata, start_mappers
 
 @pytest.fixture
 def in_memory_db():

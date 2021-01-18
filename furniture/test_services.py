@@ -1,7 +1,7 @@
 import pytest
-from domain import model
-from adapters import repository
-from service_layer import services
+import model
+import repository
+import services
 from typing import List, Set
 
 
@@ -45,7 +45,7 @@ def test_error_for_invalid_sku():
 
 
 def test_commits():
-    line = model.OrderLine("o1", "OMINOUS-MIRROR", 10)
+    line = model.OrderLine("o1", "OMINOUS-MIRROR", 10 )
     batch = model.Batch("b1", "OMINOUS-MIRROR", 100, eta=None)
     repo = FakeRepository([batch])
     session = FakeSession()
