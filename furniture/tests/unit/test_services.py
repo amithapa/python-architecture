@@ -1,7 +1,7 @@
 import pytest
-import model
-import repository
-import services
+from allocation.domain import model
+from allocation.adapters import repository
+from allocation.service_layer import services
 from typing import List, Set
 from datetime import date, timedelta
 

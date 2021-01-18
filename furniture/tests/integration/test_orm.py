@@ -1,5 +1,5 @@
 from datetime import date
-import model
+from allocation.domain import model
 
 def test_orderline_mapper_can_load_lines(session):
     session.execute(
@@ -54,5 +54,5 @@ def test_saving_allocations(session):
     batch.allocate(line)
     session.add(batch)
     session.commit()
-    rows = list(session.execute("SELECT orderline_id, batch_id FROM 'allocations'"))
+    rows = list(session.execute("SELECT orderline_id, batch_id FROM 'allocation'"))
     assert rows == [(batch.id, line.id)]

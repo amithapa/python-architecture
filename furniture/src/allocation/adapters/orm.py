@@ -2,7 +2,7 @@ from sqlalchemy import (
     Table, MetaData, Column, Integer, String, Date, ForeignKey
 )
 from sqlalchemy.orm import mapper, relationship
-from domain import model
+from allocation.domain import model
 
 metadata = MetaData()
 
@@ -24,7 +24,7 @@ batches = Table(
 )
 
 allocations = Table(
-    "allocations", metadata,
+    "allocation", metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("orderline_id", ForeignKey("order_lines.id")),
     Column("batch_id", ForeignKey("batches.id"))

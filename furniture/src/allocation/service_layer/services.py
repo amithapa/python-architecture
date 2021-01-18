@@ -1,5 +1,5 @@
-from domain import model
-from adapters import repository
+from allocation.domain import model
+from allocation.adapters import repository
 from datetime import date
 
 class InvalidSku(Exception):

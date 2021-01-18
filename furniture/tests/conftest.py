@@ -1,6 +1,5 @@
 import pytest
 import time
-import config
 import requests
 from pathlib import Path
 from sqlalchemy import create_engine
@@ -8,7 +7,8 @@ from sqlalchemy.orm import sessionmaker, clear_mappers
 from sqlalchemy.exc import OperationalError
 
 
-from orm import metadata, start_mappers
+from allocation.adapters.orm import metadata, start_mappers
+from allocation import config
 
 @pytest.fixture
 def in_memory_db():
