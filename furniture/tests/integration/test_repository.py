@@ -41,7 +41,7 @@ def insert_batch(session, batch_id):
 
 def insert_allocation(session, orderline_id, batch_id):
     session.execute(
-        "INSERT INTO allocation (orderline_id, batch_id)"
+        "INSERT INTO allocations (orderline_id, batch_id)"
         " VALUES (:orderline_id, :batch_id)",
         dict(orderline_id=orderline_id, batch_id=batch_id)
     )

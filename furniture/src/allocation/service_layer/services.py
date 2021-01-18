@@ -1,7 +1,9 @@
-from allocation.domain import model
-from allocation.adapters import repository
-from allocation.service_layer import unit_of_work
 from datetime import date
+from typing import Optional
+
+from allocation.domain import model
+from allocation.service_layer import unit_of_work
+
 
 class InvalidSku(Exception):
     pass
@@ -22,7 +24,7 @@ def allocate(orderid: str, sku: str, qty: int, uow: unit_of_work.AbstractUnitOfW
     return batchref
 
 
-def add_batch(ref: str, sku: str, qty: int, eta: date, uow: unit_of_work.AbstractUnitOfWork):
+def add_batch(ref: str, sku: str, qty: int, eta: Optional[date], uow: unit_of_work.AbstractUnitOfWork):
     with uow:
         uow.batches.add(model.Batch(ref, sku, qty, eta))
         uow.commit()
