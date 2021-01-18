@@ -27,6 +27,7 @@ def allocation_endpoint():
 def add_batch():
     session = get_session()
     repo = repository.SqlAlchemyRepository(session)
+    print(request.json)
     eta = request.json["eta"]
     if eta is not None:
         eta = datetime.fromisoformat(eta).date()

@@ -57,29 +57,7 @@ def postgres_session(postgres_db):
     clear_mappers()
 
 @pytest.fixture
-def add_stock(postgres_session):
-    batches_added = set()
-    skus_added = set()
-
-    def _add_stock(lines):
-        for ref, sku, qty, eta in lines:
-            postgres_session.execute(
-                'INSERT INTO batches (reference, sku, _purchased_quantity, eta)'
-                ' VALUES (:ref, :sku, :qty, :eta)',
-                dict(ref=ref, sku=sku, qty=qty, eta=eta),
-            )
-            [[batch_id]] = postgres_session.execute(
-                'SELECT id FROM batches WHERE reference=:ref AND sku=:sku',
-                dict(ref=ref, sku=sku),
-            )
-            batches_added.add(batch_id)
-            skus_added.add(sku)
-        postgres_session.commit()
-
-    yield _add_stock
-
-@pytest.fixture
 def restart_api():
-    (Path(__file__).parent / "flask_app.py").touch()
+    (Path(__file__).parent / "../src/allocation/entrypoints/flask_app.py").touch()
     time.sleep(0.5)
     wait_for_webapp_to_come_up()
