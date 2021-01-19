@@ -6,26 +6,26 @@ from typing import List
 class AbstractRepository(abc.ABC):
 
     @abc.abstractmethod
-    def add(self, batch: model.Batch):
+    def add(self, product: model.Product):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get(self, reference) -> model.Batch:
+    def get(self, sku) -> model.Product:
         raise NotImplementedError
 
-    @abc.abstractmethod
-    def list(self) -> List[model.Batch]:
-        raise NotImplementedError
+    # @abc.abstractmethod
+    # def list(self) -> List[model.Batch]:
+    #     raise NotImplementedError
 
 class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session):
         self.__session = session
 
-    def add(self, batch: model.Batch):
-        self.__session.add(batch)
+    def add(self, product: model.Product):
+        self.__session.add(product)
 
-    def get(self, reference) -> model.Batch:
-        return self.__session.query(model.Batch).filter_by(reference=reference).one()
+    def get(self, sku) -> model.Product:
+        return self.__session.query(model.Product).filter_by(sku=sku).first()
 
-    def list(self):
-        return self.__session.query(model.Batch).all()
+    # def list(self):
+    #     return self.__session.query(model.Product).all()
