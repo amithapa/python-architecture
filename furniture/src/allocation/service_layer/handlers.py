@@ -5,7 +5,7 @@ from allocation.domain import model
 from allocation.domain import events
 from allocation.domain import commands
 from allocation.service_layer import unit_of_work
-from allocation.adapters import email
+from allocation.adapters import email, redis_eventpublisher
 
 class InvalidSku(Exception):
     pass
@@ -32,14 +32,21 @@ def allocate(command: commands.Allocate, uow: unit_of_work.AbstractUnitOfWork) -
         uow.commit()
         return batchref
 
+def change_batch_quantity(event: commands.ChangeBatchQuantity, uow: unit_of_work.AbstractUnitOfWork):
+    with uow:
+        product = uow.products.get_by_batchref(batchref=event.ref)
+        product.change_batch_quantity(ref=event.ref, qty=event.qty)
+        uow.commit()
+
+
 def send_out_of_stock_notification(event: events.OutOfStock, uow: unit_of_work.AbstractUnitOfWork):
     email.send(
         "stock@amit.in",
         f"Out of stock for {event.sku}"
     )
 
-def change_batch_quantity(event: commands.ChangeBatchQuantity, uow: unit_of_work.AbstractUnitOfWork):
-    with uow:
-        product = uow.products.get_by_batchref(batchref=event.ref)
-        product.change_batch_quantity(ref=event.ref, qty=event.qty)
-        uow.commit()
+
+def publish_allocated_event(
+        event: events.Allocated, uow: unit_of_work.AbstractUnitOfWork,
+):
+    redis_eventpublisher.publish('line_allocated', event)

@@ -3,3 +3,6 @@ psycopg2-binary
 pytest
 sqlalchemy
 requests
+
+redis
+tenacity
